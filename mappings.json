@@ -1,0 +1,10 @@
+{
+  "profA": {
+    "ch1": {
+      "course" : "course/sample.md",
+      "ex1": "exercises/sample.md",
+      "ex2": "exercises/sample2.md",
+      "ex3": "exercises/sample3.md"
+    }
+  }
+}

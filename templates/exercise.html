@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-pane">
+            {{ html_content|safe }}
+        </div>
+        <div class="right-pane">
+            <div class="toolbar">
+                <button title="Hint" class="icon-button" aria-label="Hint">
+                    <!-- SVG for a light bulb icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lightbulb">
+                        <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6a3.9 3.9 0 0 1 1 2v1h6v-1a3.9 3.9 0 0 1 1-2c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"/>
+                    </svg>
+                </button>
+                <button title="Send" class="text-button">Send</button>
+                <button title="Solution" class="text-button">Solution</button>
+                <div>
+                    <div class="navigation">
+                        {% if current_index > 0 %}
+                        <a class="nav-button" href="/{{ prof }}/{{ chapter }}/{{ all_exercises[current_index - 1] }}">← Previous</a>
+                        {% endif %}
+                        {% if current_index + 1 < all_exercises|length %}
+                        <a class="nav-button" href="/{{ prof }}/{{ chapter }}/{{ all_exercises[current_index + 1] }}">Next →</a>
+                        {% endif %}
+                    </div>
+                    <div class="exercise-links">
+                        {% for ex in all_exercises %}
+                        <a class="exercise-link"
+                        href="/{{ prof }}/{{ chapter }}/{{ ex }}"
+                        data-key="{{ prof }}_{{ chapter }}_{{ ex }}"
+                        {% if ex == exercise %} id="current-exercise-link" {% endif %}>
+                            {{ ex }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <textarea id="code" placeholder="Write your answer here..."></textarea>
+        </div>
+    </div>
+
+    <script>
+        const key = "{{ prof }}_{{ chapter }}_{{ exercise }}";
+        const textarea = document.getElementById("code");
+        const currentLink = document.getElementById("current-exercise-link");
+
+        // Load saved content
+        textarea.value = localStorage.getItem(key) || "";
+
+        // Helper: update color class
+        function updateCurrentButtonState() {
+            if (!currentLink) return;
+            currentLink.classList.remove("started", "submitted");
+            if (localStorage.getItem(key + "_submitted") === "true") {
+                currentLink.classList.add("submitted");
+            } else if (textarea.value.trim() !== "") {
+                currentLink.classList.add("started");
+            }
+        }
+
+        // Save on input and update button class
+        textarea.addEventListener("input", () => {
+            localStorage.setItem(key, textarea.value);
+            updateCurrentButtonState();
+        });
+
+        // Handle submit
+        document.querySelector(".text-button[title='Send']").addEventListener("click", () => {
+            localStorage.setItem(key + "_submitted", "true");
+            updateCurrentButtonState();
+            alert("Submitted!");
+        });
+
+        // Color all exercise buttons on load
+        document.querySelectorAll(".exercise-link").forEach(link => {
+            const exKey = link.dataset.key;
+            if (localStorage.getItem(exKey + "_submitted") === "true") {
+                link.classList.add("submitted");
+            } else if (localStorage.getItem(exKey)) {
+                link.classList.add("started");
+            }
+        });
+
+        // Also color current one right away
+        updateCurrentButtonState();
+    </script>
+
+</body>
+</html>
