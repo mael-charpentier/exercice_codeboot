@@ -1,3 +1,5 @@
+# inspired from https://github.com/belmarca/codeboot-presentation
+
 DEBUG = True
 VERSION = "0.0"
 
