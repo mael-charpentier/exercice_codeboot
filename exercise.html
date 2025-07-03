@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Exercise</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
+
 <div>
     <div class="container" id="{exercise_id}">
         <div class="left-pane">
@@ -37,51 +30,3 @@
         </div>
     </div>
 </div>
-    <script>
-        const key = "{prof}_{chapter}_{exercise}";
-        const textarea = document.getElementById("code");
-        const currentLink = document.getElementById("current-exercise-link");
-
-        // Load saved content
-        textarea.value = localStorage.getItem(key) || "";
-
-        // Helper: update color class
-        function updateCurrentButtonState() {
-            if (!currentLink) return;
-            currentLink.classList.remove("started", "submitted");
-            if (localStorage.getItem(key + "_submitted") === "true") {
-                currentLink.classList.add("submitted");
-           } else if (textarea.value.trim() !== "") {
-                currentLink.classList.add("started");
-           }
-       }
-
-        // Save on input and update button class
-        textarea.addEventListener("input", () => {
-            localStorage.setItem(key, textarea.value);
-            updateCurrentButtonState();
-       });
-
-        // Handle submit
-        document.querySelector(".text-button[title='Send']").addEventListener("click", () => {
-            localStorage.setItem(key + "_submitted", "true");
-            updateCurrentButtonState();
-            alert("Submitted!");
-       });
-
-        // Color all exercise buttons on load
-        document.querySelectorAll(".exercise-link").forEach(link => {
-            const exKey = link.dataset.key;
-            if (localStorage.getItem(exKey + "_submitted") === "true") {
-                link.classList.add("submitted");
-           } else if (localStorage.getItem(exKey)) {
-                link.classList.add("started");
-           }
-       });
-
-        // Also color current one right away
-        updateCurrentButtonState();
-    </script>
-
-</body>
-</html>
