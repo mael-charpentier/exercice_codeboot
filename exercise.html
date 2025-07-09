@@ -1,32 +1,36 @@
 
 <div>
-    <div class="container" id="{exercise_id}">
-        <div class="left-pane">
-            {html_content}
-        </div>
-        <div class="right-pane">
-            <div class="toolbar">
-                <button title="Hint" class="icon-button" aria-label="Hint">
-                    <!-- SVG for a light bulb icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lightbulb">
-                        <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6a3.9 3.9 0 0 1 1 2v1h6v-1a3.9 3.9 0 0 1 1-2c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"/>
-                    </svg>
-                </button>
-                <button title="Send" class="text-button">Send</button>
-                <button title="Solution" class="text-button">Solution</button>
-                <div>
-                    <div class="navigation">
-                        {previous_button}
-                        {next_button}
-                    </div>
-                    <div class="exercise-links">
-                        {all_exo}
-                    </div>
-                </div>
-            </div>
 
-            <textarea id="code" placeholder="Write your answer here..."></textarea>
+    <div class="toolbar">
+        <div class="toolbar-action" style="display: none;">
+            <button title="Hint" class="icon-button" aria-label="Hint" id="hint-button">
+                <!-- SVG for a light bulb icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lightbulb">
+                    <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6a3.9 3.9 0 0 1 1 2v1h6v-1a3.9 3.9 0 0 1 1-2c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"/>
+                </svg>
+            </button>
+            <button title="Send" class="text-button" id="send-button">Send</button>
+            <button title="Solution" class="text-button" id="solution-button">Solution</button>
+        </div>
+        <div class="toolbar-page">
+            <div class="navigation">
+                <button class="nav-button" style="visibility:hidden;" id="previous-button">← Previous</button>
+            </div>
+            <div class="exercise-links">
+                {all_exo}
+            </div>
+            <div class="navigation">
+                <button class="nav-button" style="visibility:hidden;" id="next-button">Next →</button>
+            </div>
         </div>
     </div>
+
+    <div class="container">
+        <div class="left-pane" id="exercise-content">
+        </div>
+        <div class="right-pane" id="codeboot-container">
+        </div>
+    </div>
+
 </div>
