@@ -1,211 +1,243 @@
-body, html {
-    margin: 0;
-    font-family: sans-serif;
-    height: 100%;
+body,
+html {
+  margin: 0;
+  font-family: sans-serif;
+  height: 100%;
 }
 
-#exercise .container {
-    display: flex;
-    height: 100vh;
-    max-width: 100vw;
+#exercises .container {
+  display: flex;
+  height: 100vh;
+  max-width: 100vw;
+
 }
 
-#exercise .left-pane {
-    width: 50%;
-    padding: 20px;
-    overflow-y: auto;
-    border-right: 1px solid #ddd;
-    background: #fafafa;
-    display: flex;
-    flex-direction: column;
-    /*justify-content: center;
-    align-items: center;*/
-    font-size: 1.5em;
-    color: var(--main-content-color, #000);
+#exercises .container .resizer {
+  width: 5px;
+  cursor: col-resize;
+  background: #333;
+  height: 100%;
 }
 
-#exercise .right-pane {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
+#exercises .left-pane {
+  width: 100%;
+  overflow: auto;
+  padding: 20px;
+  overflow-y: auto;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5em;
+  color: var(--main-content-color, #000);
 }
 
-#exercise .toolbar {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    padding: 10px 20px;
-    background: #f9f9f9;
-    border-bottom: 1px solid #ddd;
+#exercises .right-pane {
+  width: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-#exercise .toolbar button {
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    cursor: pointer;
+#exercises .toolbar {
+  padding: 10px 20px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #ddd;
 }
 
-#exercise .icon-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    display: flex;
-    align-items: center;
+#exercises .toolbar .toolbar-action {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
-#exercise .icon-button svg {
-    width: 24px;
-    height: 24px;
-    stroke: #333;
+#exercises .toolbar .toolbar-page {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
 }
 
-#exercise .text-button {
-    background: none;
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-    font-size: 1em;
-    cursor: pointer;
-    border-radius: 4px;
+#exercises .toolbar .toolbar-page .exercise-links {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
-#exercise textarea {
-    flex: 1;
-    padding: 15px;
-    font-size: 1em;
-    border: none;
-    outline: none;
-    resize: none;
+#exercises .toolbar button {
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
 }
 
-#exercise .navigation {
-    padding: 10px 0px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 8px;
+#exercises .toolbar .toolbar-action button {
+  background: none;
 }
 
-#exercise .nav-button {
-    margin-right: 10px;
-    background: #ddd;
-    padding: 5px 10px;
-    text-decoration: none;
-    color: #000;
-    border-radius: 4px;
+#exercises .toolbar .toolbar-action .icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
 }
 
-#exercise .exercise-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+#exercises .toolbar .toolbar-action .icon-button svg {
+  width: 24px;
+  height: 24px;
+  stroke: #333;
 }
 
-#exercise .exercise-link {
-    padding: 6px 12px;
-    border-radius: 4px;
-    text-decoration: none;
-    color: white;
-    background-color: gray; /* Default: not touched */
+#exercises .toolbar .toolbar-action .text-button {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
-#exercise .exercise-link.started {
-    background-color: steelblue;
+#exercises .toolbar .toolbar-page .navigation {
+  padding: 10px 0px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
 }
 
-#exercise .exercise-link.submitted {
-    background-color: green;
+#exercises .toolbar .toolbar-page .navigation .nav-button {
+  margin-right: 10px;
+  background: #ddd;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #000;
+  border-radius: 4px;
+}
+
+#exercises .toolbar .toolbar-page .exercise-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#exercises .toolbar .toolbar-page .exercise-link {
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: white;
+  background-color: gray;
+  /* Default: not touched */
+}
+
+#exercises .toolbar .toolbar-page .nav-button,
+#exercises .toolbar .toolbar-page .exercise-link {
+  scale: .5;
+}
+
+#exercises .toolbar .toolbar-page .exercise-link.started {
+  background-color: steelblue;
+}
+
+#exercises .toolbar .toolbar-page .exercise-link.submitted {
+  background-color: green;
 }
 
 
 
-#exercise .header {
-    flex: 1;
-  }
-  
-  #exercise img {
-    max-width: 100%;
-  }
-  
-  #exercise .centered-header {
-    display: flex;
-    flex-direction: column;
-    /*align-items: center;
+#exercises .left-pane .header {
+  flex: 1;
+}
+
+#exercises .left-pane img {
+  max-width: 100%;
+}
+
+#exercises .left-pane .centered-header {
+  display: flex;
+  flex-direction: column;
+  /*align-items: center;
     text-align: center;*/
-  }
-  
-  #exercise .centered-header h1 {
-    margin-top: 20px;
-    font-size: 4em;
-    color: var(--title-color, #333);
-  }
-  
-  #exercise .centered-header h2 {
-    margin: 0;
-    font-size: 2.5em;
-    color: var(--subtitle-color, #666);
-  }
-  
-  #exercise .header h1 {
-    margin: 0;
-    font-size: 2.5em;
-    color: var(--title-color, #333);
-  }
-  
-  #exercise .header h2 {
-    margin: 0;
-    font-size: 1.2em;
-    color: var(--subtitle-color, #666);
-  }
-  
+}
 
-  
+#exercises .left-pane .centered-header h1 {
+  margin-top: 20px;
+  font-size: 4em;
+  color: var(--title-color, #333);
+}
+
+#exercises .left-pane .centered-header h2 {
+  margin: 0;
+  font-size: 2.5em;
+  color: var(--subtitle-color, #666);
+}
+
+#exercises .left-pane .header h1 {
+  margin: 0;
+  font-size: 2.5em;
+  color: var(--title-color, #333);
+}
+
+#exercises .left-pane .header h2 {
+  margin: 0;
+  font-size: 1.2em;
+  color: var(--subtitle-color, #666);
+}
+
+
+
 /* Additional styling for content elements */
-#exercise p, ul, ol, pre {
-    margin: 10px 0;
-  }
-  
-  #exercise ul, ol {
-    padding-left: 20px;
-    align-self: flex-start;
-  }
-  
-  #exercise .caption {
-    font-size: 0.9em;
-    color: var(--caption-color, #777);
-    text-align: center;
-  }
-  
-  #exercise a {
-    color: var(--link-color, #0066cc);
-    text-decoration: none;
-  }
-  
-  #exercise a:hover {
-    text-decoration: underline;
-  }
-  
-  #exercise pre {
-    background-color: var(--cb-file-container-color);
-    padding: 10px;
-    border-radius: 4px;
-    overflow-x: auto;
-  }
-  
-  #exercise strong {
-    font-weight: bold;
-  }
-  
-  #exercise > em {
-    font-style: italic;
-  }
-  
-  #exercise u {
-    text-decoration: underline;
-  }
-  
-  #exercise .cb-example-code {
+#exercises .left-pane p,
+ul,
+ol,
+pre {
+  margin: 10px 0;
+}
+
+#exercises .left-pane ul,
+ol {
+  padding-left: 20px;
+  align-self: flex-start;
+}
+
+#exercises .left-pane .caption {
+  font-size: 0.9em;
+  color: var(--caption-color, #777);
+  text-align: center;
+}
+
+#exercises .left-pane pre {
+  background-color: var(--cb-file-container-color);
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+#exercises .left-pane strong {
+  font-weight: bold;
+}
+
+#exercises .left-pane>em {
+  font-style: italic;
+}
+
+#exercises .left-pane u {
+  text-decoration: underline;
+}
+
+#exercises .left-pane .cb-example-code {
+  margin: 10px;
+  width: 100%;
+  background-color: var(--cb-file-container-color);
+  position: relative;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  #exercises .left-pane .cb-example-code {
     margin: 10px;
     width: 100%;
     background-color: var(--cb-file-container-color);
@@ -213,67 +245,40 @@ body, html {
     border-radius: 5px;
     padding: 10px;
   }
-  
-  /* Responsive styling */
-  @media (max-width: 768px) {
-    #exercise .slide {
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      height: 100%;
-      max-width: 100vw;
-      max-height: 100vh;
-      background-color: var(--slide-background-color, #fff);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      visibility: hidden;
-      overflow: hidden;
-    }
-  
-    #exercise .cb-example-code {
-      margin: 10px;
-      width: 100%;
-      background-color: var(--cb-file-container-color);
-      position: relative;
-      border-radius: 5px;
-      padding: 10px;
-    }
-  
-    #exercise .header h1 {
-      font-size: 2.5em;
-    }
-  
-    #exercise .header h2 {
-      font-size: 1.5em;
-    }
-  
-    #exercise .centered-header h1 {
-      font-size: 2.5em;
-    }
-  
-    #exercise .centered-header h2 {
-      font-size: 1.5em;
-    }
-  
-    #exercise .content {
-      padding: 10px;
-    }
-  
-    #exercise .title {
-      font-size: 1.5em;
-    }
-  
-    #exercise .subtitle {
-      font-size: 1em;
-    }
-  
-    #exercise .main-content {
-      font-size: 1em;
-    }
-  
-    #exercise .footer {
-      font-size: 0.8em;
-    }
+
+  #exercises .left-pane .header h1 {
+    font-size: 2.5em;
   }
+
+  #exercises .left-pane .header h2 {
+    font-size: 1.5em;
+  }
+
+  #exercises .left-pane .centered-header h1 {
+    font-size: 2.5em;
+  }
+
+  #exercises .left-pane .centered-header h2 {
+    font-size: 1.5em;
+  }
+
+  #exercises .left-pane .content {
+    padding: 10px;
+  }
+
+  #exercises .left-pane .title {
+    font-size: 1.5em;
+  }
+
+  #exercises .left-pane .subtitle {
+    font-size: 1em;
+  }
+
+  #exercises .left-pane .main-content {
+    font-size: 1em;
+  }
+
+  #exercises .left-pane .footer {
+    font-size: 0.8em;
+  }
+}
