@@ -1,5 +1,23 @@
 
 def init_app():
+    def verif(params):
+        if isinstance(params.all_exercises, list):
+            if len(params.all_exercises) == 0:
+                return False
+            
+            for el in params.all_exercises:
+                if isinstance(el, dict):
+                    if "name" not in el or "path" not in el:
+                        return False
+                    if not (isinstance(el["name"], str) and isinstance(el["path"], str)):
+                        return False
+                else :
+                    return False
+        else :
+            return False
+        
+        return True
+    
     # download the code from github
     write_file('launch.py', read_file(''))
     write_file('markdown.py', read_file(''))
@@ -8,14 +26,20 @@ def init_app():
     write_file('params.py', read_file(''))
 
     import params
-
+    
+    # verify params validity
+    if not verif(params):
+        return
+    
+    # download the code for all exercises from github
     for ex in params.all_exercises:
         write_file(ex["name"] + '.md', read_file(ex["path"]))
 
-    # run the code
+    # launch the app
     from launch import launch_init
     t = launch_init(params)
 
+    # delete all trace of the launch
     sys_modules = host_eval("new PyForeign(rte.sys_modules)")
     sys_modules.pop("github_access", None)
     globals().pop("github_access", None)
@@ -28,7 +52,7 @@ def init_app():
     globals().pop("split_markdown", None)
     globals().pop("parse_front_matter", None)
     
-    
+    # delete all the file from the vm
     vm = \getCodeBootVM()
     vm.fs.deleteFile("launch.py")
     vm.fs.deleteFile("markdown.py")
