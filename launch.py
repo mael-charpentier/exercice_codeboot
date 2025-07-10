@@ -379,17 +379,17 @@ def init_launch(params):
 
         return host_eval("(x) => new CodeBootVM(x)")(opts)
         
-    def add_click_handler_button(all_exercises):
+    def add_click_handler_button(exercise_state_utils, all_exercises):
         """Attach click handlers to navigation and submission buttons."""
-        document.getElementById("previous-button").addEventListener("click", lambda e:__exercise_final_utils__.previous_exo())
-        document.getElementById("next-button").addEventListener("click", lambda e:__exercise_final_utils__.next_exo())
+        document.getElementById("previous-button").addEventListener("click", lambda e:exercise_state_utils.previous_exo())
+        document.getElementById("next-button").addEventListener("click", lambda e:exercise_state_utils.next_exo())
         
         for i in range(len(all_exercises)):
-            document.getElementById(f"exo_link_{i+1}").addEventListener("click", lambda e, i=i:__exercise_final_utils__.change_exo(i))
+            document.getElementById(f"exo_link_{i+1}").addEventListener("click", lambda e, i=i:exercise_state_utils.change_exo(i))
             
-        document.getElementById("send-button").addEventListener("click", lambda e:__exercise_final_utils__.send_exo())
-        document.getElementById("solution-button").addEventListener("click", lambda e:__exercise_final_utils__.solution_exo())
-        document.getElementById("hint-button").addEventListener("click", lambda e:__exercise_final_utils__.hint_exo())
+        document.getElementById("send-button").addEventListener("click", lambda e:exercise_state_utils.send_exo())
+        document.getElementById("solution-button").addEventListener("click", lambda e:exercise_state_utils.solution_exo())
+        document.getElementById("hint-button").addEventListener("click", lambda e:exercise_state_utils.hint_exo())
         
     def init(params):
         """
@@ -452,7 +452,7 @@ def init_launch(params):
         exercise_state_utils.change_exo(0) # Show the first exercise
         exercise_state_utils.create_event_resizer() # Create the event resizer
         load_progress(exercise_state_utils) # Load saved progress for each exercise
-        add_click_handler_button(all_exercises) # Attach click handlers
+        add_click_handler_button(exercise_state_utils, all_exercises) # Attach click handlers
         
         # Disable the floating mode and hide the floating buttons :
             # don't know how to disable so I just click on the button

@@ -36,8 +36,8 @@ def init_app():
         write_file(ex["name"] + '.md', read_file(ex["path"]))
 
     # launch the app
-    from launch import launch_init
-    t = launch_init(params)
+    from launch import init_launch
+    t = init_launch(params)
 
     # delete all trace of the launch
     sys_modules = host_eval("new PyForeign(rte.sys_modules)")
@@ -66,5 +66,5 @@ def init_app():
     
     return t
 
-__exercise_final_utils__ = init_app()
+init_app()
 globals().pop("init_app", None)
