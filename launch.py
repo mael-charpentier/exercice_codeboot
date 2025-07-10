@@ -249,17 +249,11 @@ def init_launch(params):
         
         vm_exo = exercise_state_utils.vm_exercises[id_ex]
         
-        elts = exercise.querySelectorAll("code")
-        
         # Ensure the solution file exists
         if not vm_exo.fs.files.hasOwnProperty("solution.py"):
             vm_exo.fs.createFile("solution.py", "")
-
-        file = vm_exo.fs.getByName("solution.py")
-        fe = file['fe']
-        fe.enable()
         
-        vm_exo.fs.showFile("solution.py", True)
+        elts = exercise.querySelectorAll("code")
         
         for id_example, el in enumerate(elts):
             parent = el.parentElement
@@ -290,6 +284,13 @@ def init_launch(params):
 
             add_floating_icon(div, file_name, id_ex, exercise_state_utils)
             parent.replaceWith(div)
+
+        # Show the solution file
+        file = vm_exo.fs.getByName("solution.py")
+        fe = file['fe']
+        fe.enable()
+        
+        vm_exo.fs.showFile("solution.py", True)
 
     def add_floating_icon(div, file_name, id_ex, exercise_state_utils):
         """
@@ -410,7 +411,7 @@ def init_launch(params):
             return
         
         all_exercises = params.all_exercises
-        exercise_state_utils = Exercise_info(vm_exercises=[None] * len(all_exercises))
+        exercise_state_utils = Exercise_final_utils(vm_exercises=[None] * len(all_exercises))
 
         exercise_div = document.createElement("div")
         exercise_div.id = "exercises"
@@ -461,6 +462,10 @@ def init_launch(params):
             #link_floating.style.display = "none"
             link_floating.remove()
             
+        # Be sure that the height of the content is correct
+        toolbar = document.getElementById("toolbar")
+        document.getElementById("container-app").style.height = str(toolbar.parentNode.getBoundingClientRect().height - toolbar.getBoundingClientRect().height) + "px"
+        
         exercise_div.focus()
         return exercise_state_utils
 

@@ -7,16 +7,17 @@ html {
 
 #exercises .container {
   display: flex;
-  height: 100vh;
+  height: 100%;
   max-width: 100vw;
-
+  padding:0px;
+  margin:0px;
 }
 
 #exercises .container .resizer {
   width: 5px;
   cursor: col-resize;
   background: #333;
-  height: 100%;
+  /*height: 100%;*/
 }
 
 #exercises .left-pane {
@@ -39,7 +40,6 @@ html {
 }
 
 #exercises .toolbar {
-  padding: 10px 20px;
   background: #f9f9f9;
   border-bottom: 1px solid #ddd;
 }
@@ -49,6 +49,7 @@ html {
   gap: 10px;
   align-items: center;
   justify-content: center;
+  padding-top: 10px;
 }
 
 #exercises .toolbar .toolbar-page {
@@ -100,11 +101,9 @@ html {
 }
 
 #exercises .toolbar .toolbar-page .navigation {
-  padding: 10px 0px;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 8px;
 }
 
 #exercises .toolbar .toolbar-page .navigation .nav-button {
