@@ -162,7 +162,7 @@ def init_launch(params):
             Open and run (TODO) a given example file inside an exercise VM.
             """
                 
-            if index < 0 or index >= len(self.vm_exercises):
+            if id_ex < 0 or id_ex >= len(self.vm_exercises):
                 return
             
             vm_exo = self.vm_exercises[id_ex]
