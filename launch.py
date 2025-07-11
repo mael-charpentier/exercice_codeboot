@@ -464,7 +464,7 @@ def init_launch(params):
             
         # Be sure that the height of the content is correct
         toolbar = document.getElementById("toolbar")
-        document.getElementById("container-app").style.height = str(toolbar.parentNode.getBoundingClientRect().height - toolbar.getBoundingClientRect().height) + "px"
+        document.getElementById("container-app").style.height = str(\document.body.getBoundingClientRect().height - toolbar.getBoundingClientRect().height) + "px"
         
         exercise_div.focus()
         return exercise_state_utils
