@@ -19,11 +19,10 @@ def init_app():
         return True
     
     # download the code from github
-    write_file('launch.py', read_file(''))
-    write_file('markdown.py', read_file(''))
-    write_file('exercise.html', read_file(''))
-    write_file('style.css', read_file(''))
-    write_file('params.py', read_file(''))
+    write_file('launch.py', read_file('https://raw.githubusercontent.com/mael-charpentier/exercice_codeboot/refs/heads/codeboot/launch.py'))
+    write_file('markdown.py', read_file('https://raw.githubusercontent.com/mael-charpentier/exercice_codeboot/refs/heads/codeboot/markdown.py'))
+    write_file('exercise.html', read_file('https://raw.githubusercontent.com/mael-charpentier/exercice_codeboot/refs/heads/codeboot/exercise.html'))
+    write_file('style.css', read_file('https://raw.githubusercontent.com/mael-charpentier/exercice_codeboot/refs/heads/codeboot/style.css'))
 
     import params
     
