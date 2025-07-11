@@ -171,6 +171,9 @@ def init_launch(params):
                 name_module = file_name[:-3]
                 #vm_exo.exec(f"import {name_module}") # TODO : error : OSError : too much recursion
                 #vm_exo.exec(f'host_eval("new PyForeign(rte.sys_modules)").pop({name_module}, None)')
+                
+                # like I don't know how to exec code on an other VM (from a different VM). I just click the run button...
+                document.getElementsByClassName("cb-exec-btn-eval")[id_ex+1].click()
             
         def look_file_modify(self): # TODO : don't work
             """
