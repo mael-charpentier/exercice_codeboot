@@ -45,7 +45,7 @@ def init_app():
     sys_modules.pop("params", None)
     globals().pop("params", None)
     sys_modules.pop("launch", None)
-    globals().pop("launch_init", None)
+    globals().pop("init_launch", None)
     globals().pop("console", None)
     globals().pop("setTimeout", None)
     globals().pop("split_markdown", None)
