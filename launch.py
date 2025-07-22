@@ -41,6 +41,8 @@ def init_launch(params):
             self.vm_exercises = vm_exercises
             self.resizer_done = False
             self.solution_progress = [-1] * len(vm_exercises)
+            self.zoomLevels = \new WeakMap()
+            self.originalFontSizes = \new WeakMap()
             
         def create_event_resizer(self):
             """
@@ -394,6 +396,47 @@ def init_launch(params):
         document.getElementById("solution-button").addEventListener("click", lambda e:exercise_state_utils.solution_exo())
         document.getElementById("hint-button").addEventListener("click", lambda e:exercise_state_utils.hint_exo())
         
+    def add_zoom_handler(exercise_state_utils):
+        def func_keydown(e):
+            if not e.ctrlKey :
+                return
+
+            zoom = exercise_state_utils.zoomLevels.get(\this)
+
+            if e.key == '+' or e.key == '=' :
+                e.preventDefault()
+                zoom += 0.1
+            elif e.key == '-' or e.key == '_' :
+                e.preventDefault()
+                zoom = Math.max(0.5, zoom - 0.1)
+            elif e.key == '0' :
+                e.preventDefault()
+                zoom = 1
+
+            exercise_state_utils.zoomLevels.set(this, zoom)
+            applyZoom(this, zoom)
+
+        def applyZoom(section, zoom):
+            if not exercise_state_utils.originalFontSizes.has(section) :
+                map = \new Map()
+                a = section.querySelectorAll('*')
+                for el in a:
+                    style = \window.getComputedStyle(el)
+                    size = \parseFloat(style.fontSize)
+                    map.set(el, size)
+                exercise_state_utils.originalFontSizes.set(section, map)
+
+            map = exercise_state_utils.originalFontSizes.get(section)
+            for originalSize, el in map:
+                el.style.fontSize = f"{(originalSize * zoom):.2f}px"
+        
+        
+        sections = document.querySelectorAll('.zoom-section')
+        for section in sections:
+            exercise_state_utils.zoomLevels.set(section, 1) # default zoom
+            section.addEventListener('keydown', func_keydown)
+
+
     def init(params):
         """
         Main entry point that sets up the CodeBoot exercise system.
@@ -456,6 +499,7 @@ def init_launch(params):
         exercise_state_utils.create_event_resizer() # Create the event resizer
         load_progress(exercise_state_utils) # Load saved progress for each exercise
         add_click_handler_button(exercise_state_utils, all_exercises) # Attach click handlers
+        add_zoom_handler(exercise_state_utils) # Attach zoom handler
         
         # Disable the floating mode and hide the floating buttons :
             # don't know how to disable so I just click on the button

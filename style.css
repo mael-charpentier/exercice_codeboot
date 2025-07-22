@@ -14,7 +14,7 @@ html {
 }
 
 #exercises .container .resizer {
-  width: 5px;
+  width: 2.5px;
   cursor: col-resize;
   background: #333;
   /*height: 100%;*/
