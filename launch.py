@@ -120,11 +120,12 @@ def init_launch(params):
             vm_exo = self.vm_exercises[self.current_index]
             if self.exercises_mode[self.current_index] == "codeboot_fix" :
                 document.getElementById("resizer").style.display = "block"
+                document.getElementById("codeboot-container").style.width = "100%"
                 vm_exo.setHidden(False)
             if self.exercises_mode[self.current_index] == "codeboot_flottant" :
                 document.getElementById("resizer").style.display = "none"
-                vm_exo.setHidden(False)
                 document.getElementById("codeboot-container").style.width = "0%"
+                vm_exo.setHidden(False)
             if self.exercises_mode[self.current_index] == "codeboot_flottant_hidden" :
                 document.getElementById("resizer").style.display = "none"
                 document.getElementById("codeboot-container").style.width = "0%"
