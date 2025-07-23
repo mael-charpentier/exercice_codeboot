@@ -1,3 +1,15 @@
+info = {
+    "number_demo": 1,
+    "date": "2022-10-01",
+}
+
+list_etudiant = [
+    "0",
+    "1"
+]
+
+random_exercise = 2
+
 all_exercises = [
     {
         "name" : "ex1",
