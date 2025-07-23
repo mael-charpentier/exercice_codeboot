@@ -105,7 +105,7 @@ def init_launch(params):
                 last_ex.style.display = "None"
                 # remove the current exercise link (class)
                 last_ex_link = document.getElementById("exo_link_" + str(self.current_index+1))
-                last_ex.classList.remove("current-exercise-link")
+                last_ex_link.classList.remove("current-exercise-link")
                 # hide the exercise VM (right pane)
                 vm_exo = self.vm_exercises[self.current_index]
                 vm_exo.setHidden(True)
@@ -124,10 +124,13 @@ def init_launch(params):
             if self.exercises_mode[self.current_index] == "codeboot_flottant" :
                 document.getElementById("resizer").style.display = "none"
                 vm_exo.setHidden(False)
+                document.getElementById("codeboot-container").style.width = "0%"
             if self.exercises_mode[self.current_index] == "codeboot_flottant_hidden" :
                 document.getElementById("resizer").style.display = "none"
+                document.getElementById("codeboot-container").style.width = "0%"
             if self.exercises_mode[self.current_index] == "codeboot_without" :
                 document.getElementById("resizer").style.display = "none"
+                document.getElementById("codeboot-container").style.width = "0%"
             
             
             # Update navigation button visibility
