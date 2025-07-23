@@ -1,10 +1,10 @@
 # inspired from https://github.com/belmarca/codeboot-presentation
-def init_launch(params):
+def init_launch(all_exercises):
     """
     Initialize the CodeBoot exercise presentation environment.
 
     Args:
-        params (dict): Dictionary containing configuration, including 'all_exercises'.
+        all_exercises (list): List containing informations about all exercises.
 
     Returns:
         exercise_state_utils: An instance that tracks the state of exercises.
@@ -122,14 +122,14 @@ def init_launch(params):
                 document.getElementById("resizer").style.display = "block"
                 document.getElementById("codeboot-container").style.width = "100%"
                 vm_exo.setHidden(False)
-            if self.exercises_mode[self.current_index] == "codeboot_flottant" :
-                document.getElementById("resizer").style.display = "none"
-                document.getElementById("codeboot-container").style.width = "0%"
-                vm_exo.setHidden(False)
-            if self.exercises_mode[self.current_index] == "codeboot_flottant_hidden" :
-                document.getElementById("resizer").style.display = "none"
-                document.getElementById("codeboot-container").style.width = "0%"
-            if self.exercises_mode[self.current_index] == "codeboot_without" :
+            #elif self.exercises_mode[self.current_index] == "codeboot_flottant" :
+            #    document.getElementById("resizer").style.display = "none"
+            #    document.getElementById("codeboot-container").style.width = "0%"
+            #    vm_exo.setHidden(False)
+            #elif self.exercises_mode[self.current_index] == "codeboot_flottant_hidden" :
+            #    document.getElementById("resizer").style.display = "none"
+            #    document.getElementById("codeboot-container").style.width = "0%"
+            elif self.exercises_mode[self.current_index] == "codeboot_without" :
                 document.getElementById("resizer").style.display = "none"
                 document.getElementById("codeboot-container").style.width = "0%"
             
@@ -468,12 +468,11 @@ function applyZoom(section, zoom) {
     """)
 
 
-    def init(params):
+    def init(all_exercises):
         """
         Main entry point that sets up the CodeBoot exercise system.
         """
         
-        all_exercises = params.all_exercises
         exercise_state_utils = Exercise_final_utils(len(all_exercises))
 
         exercise_div = document.createElement("div")
@@ -540,5 +539,6 @@ function applyZoom(section, zoom) {
         exercise_div.focus()
         return exercise_state_utils
 
-    return init(params)
+    return init(all_exercises)
+
 
