@@ -20,7 +20,7 @@ html {
   /*height: 100%;*/
 }
 
-#exercises .left-pane {
+#exercises .left-panel {
   width: 100%;
   overflow: auto;
   padding: 20px;
@@ -32,7 +32,7 @@ html {
   color: var(--main-content-color, #000);
 }
 
-#exercises .right-pane {
+#exercises .right-panel {
   width: 100%;
   overflow: auto;
   display: flex;
@@ -121,6 +121,10 @@ html {
   gap: 8px;
 }
 
+#exercises .toolbar .toolbar-page .current-exercise-link {
+  border: 5px solid purple;
+}
+
 #exercises .toolbar .toolbar-page .exercise-link {
   padding: 6px 12px;
   border-radius: 4px;
@@ -145,40 +149,40 @@ html {
 
 
 
-#exercises .left-pane .header {
+#exercises .left-panel .header {
   flex: 1;
 }
 
-#exercises .left-pane img {
+#exercises .left-panel img {
   max-width: 100%;
 }
 
-#exercises .left-pane .centered-header {
+#exercises .left-panel .centered-header {
   display: flex;
   flex-direction: column;
   /*align-items: center;
     text-align: center;*/
 }
 
-#exercises .left-pane .centered-header h1 {
+#exercises .left-panel .centered-header h1 {
   margin-top: 20px;
   font-size: 4em;
   color: var(--title-color, #333);
 }
 
-#exercises .left-pane .centered-header h2 {
+#exercises .left-panel .centered-header h2 {
   margin: 0;
   font-size: 2.5em;
   color: var(--subtitle-color, #666);
 }
 
-#exercises .left-pane .header h1 {
+#exercises .left-panel .header h1 {
   margin: 0;
   font-size: 2.5em;
   color: var(--title-color, #333);
 }
 
-#exercises .left-pane .header h2 {
+#exercises .left-panel .header h2 {
   margin: 0;
   font-size: 1.2em;
   color: var(--subtitle-color, #666);
@@ -187,45 +191,45 @@ html {
 
 
 /* Additional styling for content elements */
-#exercises .left-pane p,
+#exercises .left-panel p,
 ul,
 ol,
 pre {
   margin: 10px 0;
 }
 
-#exercises .left-pane ul,
+#exercises .left-panel ul,
 ol {
   padding-left: 20px;
   align-self: flex-start;
 }
 
-#exercises .left-pane .caption {
+#exercises .left-panel .caption {
   font-size: 0.9em;
   color: var(--caption-color, #777);
   text-align: center;
 }
 
-#exercises .left-pane pre {
+#exercises .left-panel pre {
   background-color: var(--cb-file-container-color);
   padding: 10px;
   border-radius: 4px;
   overflow-x: auto;
 }
 
-#exercises .left-pane strong {
+#exercises .left-panel strong {
   font-weight: bold;
 }
 
-#exercises .left-pane>em {
+#exercises .left-panel>em {
   font-style: italic;
 }
 
-#exercises .left-pane u {
+#exercises .left-panel u {
   text-decoration: underline;
 }
 
-#exercises .left-pane .cb-example-code {
+#exercises .left-panel .cb-example-code {
   margin: 10px;
   width: 100%;
   background-color: var(--cb-file-container-color);
@@ -236,7 +240,7 @@ ol {
 
 /* Responsive styling */
 @media (max-width: 768px) {
-  #exercises .left-pane .cb-example-code {
+  #exercises .left-panel .cb-example-code {
     margin: 10px;
     width: 100%;
     background-color: var(--cb-file-container-color);
@@ -245,39 +249,39 @@ ol {
     padding: 10px;
   }
 
-  #exercises .left-pane .header h1 {
+  #exercises .left-panel .header h1 {
     font-size: 2.5em;
   }
 
-  #exercises .left-pane .header h2 {
+  #exercises .left-panel .header h2 {
     font-size: 1.5em;
   }
 
-  #exercises .left-pane .centered-header h1 {
+  #exercises .left-panel .centered-header h1 {
     font-size: 2.5em;
   }
 
-  #exercises .left-pane .centered-header h2 {
+  #exercises .left-panel .centered-header h2 {
     font-size: 1.5em;
   }
 
-  #exercises .left-pane .content {
+  #exercises .left-panel .content {
     padding: 10px;
   }
 
-  #exercises .left-pane .title {
+  #exercises .left-panel .title {
     font-size: 1.5em;
   }
 
-  #exercises .left-pane .subtitle {
+  #exercises .left-panel .subtitle {
     font-size: 1em;
   }
 
-  #exercises .left-pane .main-content {
+  #exercises .left-panel .main-content {
     font-size: 1em;
   }
 
-  #exercises .left-pane .footer {
+  #exercises .left-panel .footer {
     font-size: 0.8em;
   }
 }

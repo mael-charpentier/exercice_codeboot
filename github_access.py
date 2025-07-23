@@ -23,6 +23,7 @@ def init_app():
     write_file('markdown.py', read_file('https://raw.githubusercontent.com/mael-charpentier/exercice_codeboot/refs/heads/codeboot/markdown.py'))
     write_file('exercise.html', read_file('https://raw.githubusercontent.com/mael-charpentier/exercice_codeboot/refs/heads/codeboot/exercise.html'))
     write_file('style.css', read_file('https://raw.githubusercontent.com/mael-charpentier/exercice_codeboot/refs/heads/codeboot/style.css'))
+    write_file('params.py', read_file('https://raw.githubusercontent.com/mael-charpentier/exercice_codeboot/refs/heads/codeboot/params.py'))
 
     import params
     
@@ -32,7 +33,9 @@ def init_app():
     
     # download the code for all exercises from github
     for ex in params.all_exercises:
-        write_file(ex["name"] + '.md', read_file(ex["path"]))
+        write_file(ex["name"] + '.md', read_file(ex["path_content"]))
+        if "path_code" in ex:
+            write_file(ex["name"] + '.py', read_file(ex["path_code"]))
 
     # launch the app
     from launch import init_launch
@@ -62,6 +65,8 @@ def init_app():
 
     for ex in params.all_exercises:
         vm.fs.deleteFile(ex["name"] + '.md')
+        if "path_code" in ex:
+            vm.fs.deleteFile(ex["name"] + '.py')
     
     return t
 

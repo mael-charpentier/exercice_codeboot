@@ -26,7 +26,7 @@ def init_launch(params):
     cb = \CodeBoot.prototype.cb
 
     class Exercise_final_utils():
-        def __init__(self, current_index = -1, vm_exercises = []):
+        def __init__(self, num_exercises, current_index = -1, vm_exercises = None, exercises_funcs = None, exercises_mode = None):
             """
             Utility class that manages all logic related to exercise switching,
             solution tracking, file watching, interaction...
@@ -37,8 +37,11 @@ def init_launch(params):
                 resizer_done (bool): Whether the resizer listener was attached.
                 solution_progress (list): Progress state per exercise (0 = not started, 1 = started, 2 = submitted).
             """
+            self.num_exercises = num_exercises
             self.current_index = current_index
-            self.vm_exercises = vm_exercises
+            self.vm_exercises = vm_exercises if vm_exercises is not None else [None] * num_exercises
+            self.exercises_funcs = exercises_funcs if exercises_funcs is not None else [None] * num_exercises
+            self.exercises_mode = exercises_mode if exercises_mode is not None else [None] * num_exercises
             self.resizer_done = False
             self.solution_progress = [-1] * len(vm_exercises)
             
@@ -105,7 +108,7 @@ def init_launch(params):
                 last_ex.classList.remove("current-exercise-link")
                 # hide the exercise VM (right pane)
                 vm_exo = self.vm_exercises[self.current_index]
-                vm_exo.toggleHidden()
+                vm_exo.setHidden(True)
                 
             self.current_index = index
             
@@ -115,7 +118,16 @@ def init_launch(params):
             new_ex_link = document.getElementById("exo_link_" + str(self.current_index+1))
             new_ex_link.classList.add("current-exercise-link")
             vm_exo = self.vm_exercises[self.current_index]
-            vm_exo.toggleHidden()
+            if self.exercises_mode[self.current_index] == "codeboot_fix" :
+                document.getElementById("resizer").style.display = "block"
+                vm_exo.setHidden(False)
+            if self.exercises_mode[self.current_index] == "codeboot_flottant" :
+                document.getElementById("resizer").style.display = "none"
+                vm_exo.setHidden(False)
+            if self.exercises_mode[self.current_index] == "codeboot_flottant_hidden" :
+                document.getElementById("resizer").style.display = "none"
+            if self.exercises_mode[self.current_index] == "codeboot_without" :
+                document.getElementById("resizer").style.display = "none"
             
             
             # Update navigation button visibility
@@ -143,7 +155,11 @@ def init_launch(params):
             
         def hint_exo(self):
             """(TODO) Show a hint for the current exercise."""
-            return
+            if self.exercises_funcs[self.current_index] is None:
+                return
+            hint = self.exercises_funcs[self.current_index].hint()
+            # TODO : show hint
+            return 
             
         def send_exo(self):
             """
@@ -151,11 +167,19 @@ def init_launch(params):
             Updates solution state and UI to 'submitted'.
             """
             self.solution_progress[self.current_index] = 2
+            # TODO lock it
+            if self.exercises_funcs[self.current_index] is None:
+                return
+            self.exercises_funcs[self.current_index].send() # TODO path file
             return
             
         def solution_exo(self):
             """(TODO) Show the final solution."""
-            return
+            if self.exercises_funcs[self.current_index] is None:
+                return
+            solution = self.exercises_funcs[self.current_index].solution()
+            # TODO : show solution
+            return 
         
         def open_run_example_file(self, id_ex, file_name):
             """
@@ -464,7 +488,7 @@ function applyZoom(section, zoom) {
             return
         
         all_exercises = params.all_exercises
-        exercise_state_utils = Exercise_final_utils(vm_exercises=[None] * len(all_exercises))
+        exercise_state_utils = Exercise_final_utils(len(all_exercises))
 
         exercise_div = document.createElement("div")
         exercise_div.id = "exercises"
@@ -524,3 +548,4 @@ function applyZoom(section, zoom) {
         return exercise_state_utils
 
     return init(params)
+
