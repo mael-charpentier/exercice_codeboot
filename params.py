@@ -1,6 +1,6 @@
 info = {
     "number_demo": "1",
-    "date": "2022-10-01",
+    "date": "2022-10-01"
 }
 
 list_etudiant = [
