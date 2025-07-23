@@ -8,7 +8,7 @@ list_etudiant = [
     "1"
 ]
 
-random_exercise = 2
+random_exercise = 3
 
 all_exercises = [
     {
