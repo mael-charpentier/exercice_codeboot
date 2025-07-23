@@ -1,6 +1,16 @@
 
 def init_app():
     def verif(params):
+        if not isinstance(params.random_exercise, int):
+            return False
+        
+        if isinstance(params.info, dict):
+            for k,v in params.info.items():
+                if not isinstance(k, str) or not isinstance(v, str):
+                    return False
+        else :
+            return False
+            
         if isinstance(params.all_exercises, list):
             if len(params.all_exercises) == 0:
                 return False

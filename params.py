@@ -1,5 +1,5 @@
 info = {
-    "number_demo": 1,
+    "number_demo": "1",
     "date": "2022-10-01",
 }
 
