@@ -487,7 +487,11 @@ function applyZoom(section, zoom) {
         
         # Render navigation buttons
         all_exo = ""
+        exercises_mode = []
+        exercises_funcs = []
         for i, ex in enumerate(all_exercises):
+            exercises_mode.append(ex["type_page"])
+            exercises_funcs.append(ex["path_code"] if "path_code" in ex else None)
             all_exo += f"""
                         <button class="exercise-link"
                             id="exo_link_{i+1}"
@@ -496,6 +500,9 @@ function applyZoom(section, zoom) {
                             { ex["name"] }
                         </button>
                         """
+        
+        exercise_state_utils.exercises_mode = exercises_mode
+        exercise_state_utils.exercises_funcs = exercises_funcs
         
         # create the squeleton of the page
         params = {"all_exo" : all_exo}
