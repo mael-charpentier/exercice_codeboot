@@ -7,9 +7,11 @@ def init_app():
             
             for el in params.all_exercises:
                 if isinstance(el, dict):
-                    if "name" not in el or "path" not in el:
+                    if "name" not in el or "path_content" not in el or "type_page" not in el:
                         return False
-                    if not (isinstance(el["name"], str) and isinstance(el["path"], str)):
+                    if not (isinstance(el["name"], str) and isinstance(el["path_content"], str) and isinstance(el["type_page"], str)):
+                        return False
+                    if "path_code" in el and not isinstance(el["path_code"], str):
                         return False
                 else :
                     return False

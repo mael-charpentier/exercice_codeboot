@@ -43,7 +43,7 @@ def init_launch(params):
             self.exercises_funcs = exercises_funcs if exercises_funcs is not None else [None] * num_exercises
             self.exercises_mode = exercises_mode if exercises_mode is not None else [None] * num_exercises
             self.resizer_done = False
-            self.solution_progress = [-1] * len(vm_exercises)
+            self.solution_progress = [-1] * num_exercises
             
         def create_event_resizer(self):
             """
@@ -472,20 +472,6 @@ function applyZoom(section, zoom) {
         """
         Main entry point that sets up the CodeBoot exercise system.
         """
-        if isinstance(params.all_exercises, list):
-            if len(params.all_exercises) == 0:
-                return
-            
-            for el in params.all_exercises:
-                if isinstance(el, dict):
-                    if "name" not in el or "path" not in el:
-                        return
-                    if not (isinstance(el["name"], str) and isinstance(el["path"], str)):
-                        return
-                else :
-                    return
-        else :
-            return
         
         all_exercises = params.all_exercises
         exercise_state_utils = Exercise_final_utils(len(all_exercises))
