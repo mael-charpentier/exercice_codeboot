@@ -12,6 +12,7 @@ def init_launch(all_exercises):
     
     DEBUG = True
     VERSION = "0.0"
+    FILE_NAME_SOLUTION = "solution.py"
 
     from js import console, setTimeout
     from markdown import split_markdown, parse_front_matter
@@ -207,30 +208,31 @@ def init_launch(all_exercises):
             id_ex = self.current_index
             
             vm_exo = self.vm_exercises[id_ex]
-            file_name = "solution.py"
-            file = vm_exo.fs.getByName(file_name)
             
-            if file.content == "" and self.solution_progress[id_ex] == 1:
-                # not started : change color to gray
-                self.solution_progress[id_ex] = 0
-                writeFile(f"config_{id_ex}.txt", "0")
-                document.getElementById("exo_link_"+str(id_ex+1)).classList.remove("started")
-            
-            if file.content != "" and self.solution_progress[id_ex] == 0:
-                # started : change color to blue
-                self.solution_progress[id_ex] = 1
-                writeFile(f"config_{id_ex}.txt", "1")
-                document.getElementById("exo_link_"+str(id_ex+1)).classList.add("started")
-            
-            if self.solution_progress[id_ex] == 2:
-                # solution submitted : stop looking + change color to green
-                if "started" in document.getElementById("exo_link_"+str(id_ex+1)).classList :
+            if vm_exo is not None:
+                content = vm_exo.fs.getContent(FILE_NAME_SOLUTION)
+                
+                if content == "" and self.solution_progress[id_ex] == 1:
+                    # not started : change color to gray
+                    self.solution_progress[id_ex] = 0
+                    writeFile(f"config_{id_ex}.txt", "0")
                     document.getElementById("exo_link_"+str(id_ex+1)).classList.remove("started")
-                    
-                document.getElementById("exo_link_"+str(id_ex+1)).classList.add("submitted")
-                self.solution_progress[id_ex] = 2
-                writeFile(f"config_{id_ex}.txt", "2")
-                return
+                
+                if content != "" and self.solution_progress[id_ex] == 0:
+                    # started : change color to blue
+                    self.solution_progress[id_ex] = 1
+                    writeFile(f"config_{id_ex}.txt", "1")
+                    document.getElementById("exo_link_"+str(id_ex+1)).classList.add("started")
+                
+                if self.solution_progress[id_ex] == 2:
+                    # solution submitted : stop looking + change color to green
+                    if "started" in document.getElementById("exo_link_"+str(id_ex+1)).classList :
+                        document.getElementById("exo_link_"+str(id_ex+1)).classList.remove("started")
+                        
+                    document.getElementById("exo_link_"+str(id_ex+1)).classList.add("submitted")
+                    self.solution_progress[id_ex] = 2
+                    writeFile(f"config_{id_ex}.txt", "2")
+                    return
             
             
             setTimeout(lambda: self.look_file_modify(), 100)
@@ -277,8 +279,8 @@ def init_launch(all_exercises):
         vm_exo = exercise_state_utils.vm_exercises[id_ex]
         
         # Ensure the solution file exists
-        if not vm_exo.fs.files.hasOwnProperty("solution.py"):
-            vm_exo.fs.createFile("solution.py", "")
+        if not vm_exo.fs.files.hasOwnProperty(FILE_NAME_SOLUTION):
+            vm_exo.fs.createFile(FILE_NAME_SOLUTION, "")
         
         elts = exercise.querySelectorAll("code")
         
@@ -313,11 +315,11 @@ def init_launch(all_exercises):
             parent.replaceWith(div)
 
         # Show the solution file
-        file = vm_exo.fs.getByName("solution.py")
+        file = vm_exo.fs.getByName(FILE_NAME_SOLUTION)
         fe = file['fe']
         fe.enable()
         
-        vm_exo.fs.showFile("solution.py", True)
+        vm_exo.fs.showFile(FILE_NAME_SOLUTION, True)
 
     def add_floating_icon(div, file_name, id_ex, exercise_state_utils):
         """
@@ -542,3 +544,7 @@ function applyZoom(section, zoom) {
     return init(all_exercises)
 
 
+# TODO : random exo par etudant (garde en memoire les exos)
+# TODO : floating codeboot mode (for intro)
+# TODO : style markdown + color button (on it, begin, finish, ...)
+# TODO : mode edition (creer exercise) : markdown-it
