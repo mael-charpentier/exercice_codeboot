@@ -13,9 +13,9 @@ random_exercise = 3
 all_exercises = [
     {
         "name" : "intro",
-        "path_content" : "https://raw.githubusercontent.com/mael-charpentier/exercice_codeboot/refs/heads/codeboot/ex3.md",
+        "path_content" : "https://raw.githubusercontent.com/mael-charpentier/exercice_codeboot/refs/heads/codeboot/intro.md",
         #"path_code" : "https://raw.githubusercontent.com/mael-charpentier/exercice_codeboot/refs/heads/codeboot/ex1.py",
-        "type_page" : "codeboot_without",
+        "type_page" : "codeboot_floating",
         "require" : "True"
     },
     {
