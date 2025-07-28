@@ -9,10 +9,6 @@ def init_launch(all_exercises):
     Returns:
         exercise_state_utils: An instance that tracks the state of exercises.
     """
-    
-    DEBUG = True
-    VERSION = "0.0"
-    FILE_NAME_SOLUTION = "solution.py"
 
     from js import console, setTimeout
     from markdown import split_markdown, parse_front_matter
@@ -25,6 +21,9 @@ def init_launch(all_exercises):
 
     vm = getCodeBootVM()
     cb = \CodeBoot.prototype.cb
+    
+    DEBUG = True
+    VERSION = "0.0"
 
     class Exercise_final_utils():
         def __init__(self, num_exercises, current_index = -1, vm_exercises = None, exercises_funcs = None, exercises_mode = None):
@@ -45,6 +44,7 @@ def init_launch(all_exercises):
             self.exercises_mode = exercises_mode if exercises_mode is not None else [None] * num_exercises
             self.resizer_done = False
             self.solution_progress = [-1] * num_exercises
+            self.FILE_NAME_SOLUTION = "solution.py"
             
         def create_event_resizer(self):
             """
@@ -109,7 +109,8 @@ def init_launch(all_exercises):
                 last_ex_link.classList.remove("current-exercise-link")
                 # hide the exercise VM (right pane)
                 vm_exo = self.vm_exercises[self.current_index]
-                vm_exo.setHidden(True)
+                if vm_exo is not None:
+                    vm_exo.setHidden(True)
                 
             self.current_index = index
             
@@ -123,13 +124,9 @@ def init_launch(all_exercises):
                 document.getElementById("resizer").style.display = "block"
                 document.getElementById("codeboot-container").style.width = "100%"
                 vm_exo.setHidden(False)
-            #elif self.exercises_mode[self.current_index] == "codeboot_flottant" :
-            #    document.getElementById("resizer").style.display = "none"
-            #    document.getElementById("codeboot-container").style.width = "0%"
-            #    vm_exo.setHidden(False)
-            #elif self.exercises_mode[self.current_index] == "codeboot_flottant_hidden" :
-            #    document.getElementById("resizer").style.display = "none"
-            #    document.getElementById("codeboot-container").style.width = "0%"
+            elif self.exercises_mode[self.current_index] == "codeboot_floating" :
+                document.getElementById("resizer").style.display = "none"
+                document.getElementById("codeboot-container").style.width = "0%"
             elif self.exercises_mode[self.current_index] == "codeboot_without" :
                 document.getElementById("resizer").style.display = "none"
                 document.getElementById("codeboot-container").style.width = "0%"
@@ -160,9 +157,12 @@ def init_launch(all_exercises):
             
         def hint_exo(self):
             """(TODO) Show a hint for the current exercise."""
-            if self.exercises_funcs[self.current_index] is None:
+            id_ex = self.current_index
+            if id_ex < 0 or id_ex >= len(self.exercises_funcs):
                 return
-            hint = self.exercises_funcs[self.current_index].hint()
+            if self.exercises_funcs[id_ex] is None:
+                return
+            hint = self.exercises_funcs[id_ex].hint()
             # TODO : show hint
             return 
             
@@ -171,30 +171,42 @@ def init_launch(all_exercises):
             (TODO) Submit the current solution.
             Updates solution state and UI to 'submitted'.
             """
-            self.solution_progress[self.current_index] = 2
-            # TODO lock it
-            if self.exercises_funcs[self.current_index] is None:
+            id_ex = self.current_index
+            if id_ex < 0 or id_ex >= len(self.exercises_funcs):
                 return
-            self.exercises_funcs[self.current_index].send() # TODO path file
+            self.solution_progress[id_ex] = 2
+            # TODO lock it
+            if self.exercises_funcs[id_ex] is None:
+                return
+            self.exercises_funcs[id_ex].send() # TODO path file
             return
             
         def solution_exo(self):
             """(TODO) Show the final solution."""
-            if self.exercises_funcs[self.current_index] is None:
+            id_ex = self.current_index
+            if id_ex < 0 or id_ex >= len(self.exercises_funcs):
                 return
-            solution = self.exercises_funcs[self.current_index].solution()
+            if self.exercises_funcs[id_ex] is None:
+                return
+            solution = self.exercises_funcs[id_ex].solution()
             # TODO : show solution
-            return 
+            return
         
-        def open_run_example_file(self, id_ex, file_name):
+        def open_run_example_file(self, file_name):
             """
-            Open and run (TODO) a given example file inside an exercise VM.
+            Open and run a given example file inside an exercise VM.
             """
-                
+            id_ex = self.current_index
             if id_ex < 0 or id_ex >= len(self.vm_exercises):
                 return
             
             vm_exo = self.vm_exercises[id_ex]
+            if vm_exo is None:
+                return
+            
+            if vm_exo.isHidden() :
+                vm_exo.setHidden(False)
+
             if vm_exo.fs.files.hasOwnProperty(file_name):
                 vm_exo.fs.showFile(file_name, True)
                 name_module = file_name[:-3]
@@ -206,11 +218,13 @@ def init_launch(all_exercises):
             Recursively checks every 100ms.
             """
             id_ex = self.current_index
+            if id_ex < 0 or id_ex >= len(self.vm_exercises):
+                return
             
             vm_exo = self.vm_exercises[id_ex]
             
             if vm_exo is not None:
-                content = vm_exo.fs.getContent(FILE_NAME_SOLUTION)
+                content = vm_exo.fs.getContent(self.FILE_NAME_SOLUTION)
                 
                 if content == "" and self.solution_progress[id_ex] == 1:
                     # not started : change color to gray
@@ -238,7 +252,7 @@ def init_launch(all_exercises):
             setTimeout(lambda: self.look_file_modify(), 100)
                 
 
-    def generate_exercise(markdown, id_ex, actions, exercise_state_utils):
+    def generate_exercise(markdown, id_ex, actions, exercise_state_utils, type_page):
         """
         Parse markdown and initialize an exercise div with a VM instance.
 
@@ -263,7 +277,7 @@ def init_launch(all_exercises):
         
         document.getElementById('exercise-content').appendChild(exercise_div)
         
-        vm_exo = setup_vm_exercises(id_ex)
+        vm_exo = setup_vm_exercises(id_ex, type_page)
         exercise_state_utils.vm_exercises[id_ex] = vm_exo
         
         exercise = document.getElementById(exercise_id)
@@ -277,10 +291,12 @@ def init_launch(all_exercises):
         nonlocal cb, vm
         
         vm_exo = exercise_state_utils.vm_exercises[id_ex]
+        if vm_exo is None:
+            return
         
         # Ensure the solution file exists
-        if not vm_exo.fs.files.hasOwnProperty(FILE_NAME_SOLUTION):
-            vm_exo.fs.createFile(FILE_NAME_SOLUTION, "")
+        if not vm_exo.fs.files.hasOwnProperty(exercise_state_utils.FILE_NAME_SOLUTION):
+            vm_exo.fs.createFile(exercise_state_utils.FILE_NAME_SOLUTION, "")
         
         elts = exercise.querySelectorAll("code")
         
@@ -311,22 +327,22 @@ def init_launch(all_exercises):
             div.innerHTML = html
             div.classList.add("cb-example-code")
 
-            add_floating_icon(div, file_name, id_ex, exercise_state_utils)
+            add_floating_icon(div, file_name, exercise_state_utils)
             parent.replaceWith(div)
 
         # Show the solution file
-        file = vm_exo.fs.getByName(FILE_NAME_SOLUTION)
+        file = vm_exo.fs.getByName(exercise_state_utils.FILE_NAME_SOLUTION)
         fe = file['fe']
         fe.enable()
         
-        vm_exo.fs.showFile(FILE_NAME_SOLUTION, True)
+        vm_exo.fs.showFile(exercise_state_utils.FILE_NAME_SOLUTION, True)
 
-    def add_floating_icon(div, file_name, id_ex, exercise_state_utils):
+    def add_floating_icon(div, file_name, exercise_state_utils):
         """
         Attach a floating button to run example code files in the exercise VM.
         """
         btn = HTMLElement_from_html('<button class="btn btn-secondary cb-button" type="button"></button>')
-        btn.onclick = lambda evt: exercise_state_utils.open_run_example_file(id_ex, file_name)
+        btn.onclick = lambda evt: exercise_state_utils.open_run_example_file(file_name)
         svg = HTMLElement_from_html(vm.getImage('clone')) # TODO : change icon
         btn.style.position = "absolute"
         btn.style.top = "0px"
@@ -387,26 +403,49 @@ def init_launch(all_exercises):
         
         exercise_state_utils.look_file_modify()
 
-    def setup_vm_exercises(id):
+    def setup_vm_exercises(id, type_page):
         """Create and configure a new CodeBoot VM instance for an exercise."""
-        
-        root = document.createElement("div")
-        root.classList.add("cb-vm")
-        root.id = "cb-exercises-vm-"+str(id+1)
+        vm = None
+        if type_page == "codeboot_fix":
+            root = document.createElement("div")
+            root.classList.add("cb-vm")
+            root.id = "cb-exercises-vm-"+str(id+1)
 
-        opts = {
-            "root": root,
-            "hidden": True,
-            "showLineNumbers": True,
-            "cloned": False,
-            "floating": True, # TODO : want False but crash
-            "embedded": False,
-            "showEditors": True
-        }
+            opts = {
+                "root": root,
+                "hidden": True,
+                "showLineNumbers": True,
+                "cloned": False,
+                "floating": True, # TODO : want False but crash
+                "embedded": False,
+                "showEditors": True
+            }
 
-        document.getElementById("codeboot-container").appendChild(root)
-
-        return host_eval("(x) => new CodeBootVM(x)")(opts)
+            document.getElementById("codeboot-container").appendChild(root)
+            
+            vm = host_eval("(x) => new CodeBootVM(x)")(opts)
+            vm.setFloating(False) # TODO
+            
+        elif type_page == "codeboot_floating":
+            root = document.createElement("div")
+            root.classList.add("cb-vm")
+            root.id = "cb-exercises-vm-"+str(id+1)
+            
+            opts = {
+                "root": root,
+                "hidden": True,
+                "showLineNumbers": True,
+                "cloned": False,
+                "floating": True,
+                "embedded": False,
+                "showEditors": True,
+                "resizable": True
+            }
+            
+            document.getElementById("codeboot-container").appendChild(root)
+            
+            vm = host_eval("(x) => new CodeBootVM(x)")(opts)
+        return vm
         
     def add_click_handler_button(exercise_state_utils, all_exercises):
         """Attach click handlers to navigation and submission buttons."""
@@ -516,7 +555,7 @@ function applyZoom(section, zoom) {
         # generate all the exercises
         for id_ex, ex in enumerate(all_exercises):
             markdown = read_file(ex["name"]+ ".md")
-            generate_exercise(markdown, id_ex, actions, exercise_state_utils)
+            generate_exercise(markdown, id_ex, actions, exercise_state_utils, ex["type_page"])
         
         # init the page
         exercise_state_utils.current_index = -1
@@ -525,12 +564,9 @@ function applyZoom(section, zoom) {
         load_progress(exercise_state_utils) # Load saved progress for each exercise
         add_click_handler_button(exercise_state_utils, all_exercises) # Attach click handlers
         add_zoom_handler() # Attach zoom handler
-        
-        # Disable the floating mode and hide the floating buttons :
-            # don't know how to disable so I just click on the button
+        # Hide the floating buttons :
         a = document.querySelectorAll('a[data-cb-setting-floating]')
         for link_floating in a:
-            link_floating.click()
             #link_floating.style.display = "none"
             link_floating.remove()
             
@@ -546,5 +582,5 @@ function applyZoom(section, zoom) {
 
 # TODO : random exo par etudant (garde en memoire les exos)
 # TODO : floating codeboot mode (for intro)
-# TODO : style markdown + color button (on it, begin, finish, ...)
+# TODO : style markdown
 # TODO : mode edition (creer exercise) : markdown-it
