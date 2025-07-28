@@ -435,7 +435,7 @@ def init_launch(all_exercises):
                 "root": root,
                 "hidden": True,
                 "showLineNumbers": True,
-                "cloned": False,
+                "cloned": True,
                 "floating": True,
                 "embedded": False,
                 "showEditors": True,
